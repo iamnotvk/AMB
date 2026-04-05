@@ -340,6 +340,12 @@ button {
   margin: 0;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .footer-link {
   color: var(--accent);
   text-decoration: none;
