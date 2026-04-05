@@ -1,4 +1,4 @@
-CXX := clang++
+CXX ?= g++
 CXXFLAGS := -std=c++20 -O3 -Wall -Wextra -Wpedantic -pthread -Iinclude
 LDFLAGS := -pthread
 
