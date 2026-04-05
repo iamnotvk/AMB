@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMB Graph Engine Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">AMB / Concurrent Graph Engine</p>
+        <h1>CSR-optimized graph processing for parallel BFS and PageRank on multi-core CPUs.</h1>
+        <p class="lede">
+          This project focuses on the real systems problem behind graph analytics: pointer-heavy layouts and shared-state locking collapse under skewed graphs. AMB uses compressed sparse row storage, atomic update paths, and benchmark comparisons to show how memory layout and synchronization strategy affect throughput, contention, and scalability.
+        </p>
+        <div class="hero-points">
+          <span>CSR Memory Layout</span>
+          <span>Atomic Parallel Updates</span>
+          <span>Benchmark + Visualization</span>
+        </div>
+      </div>
+      <div class="metrics-card">
+        <h2>Runtime Metrics</h2>
+        <dl id="metrics">
+          <div><dt>TEPS</dt><dd id="metric-teps">-</dd></div>
+          <div><dt>Elapsed</dt><dd id="metric-elapsed">-</dd></div>
+          <div><dt>Sync Ratio</dt><dd id="metric-sync">-</dd></div>
+          <div><dt>Est. LLC Miss</dt><dd id="metric-llc">-</dd></div>
+          <div><dt>Bandwidth</dt><dd id="metric-bandwidth">-</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="controls">
+      <label>
+        Algorithm
+        <select id="algorithm">
+          <option value="bfs">Parallel BFS</option>
+          <option value="pagerank">PageRank</option>
+        </select>
+      </label>
+      <label>
+        Threads
+        <input id="threads" type="range" min="1" max="12" value="4">
+        <span id="thread-label">4</span>
+      </label>
+      <label>
+        Source Vertex
+        <input id="source" type="number" min="0" value="0">
+      </label>
+      <button id="run-button">Run Demo</button>
+    </section>
+
+    <section class="info-card quick-guide">
+      <h2>How To Use This Demo</h2>
+      <ol class="kid-steps">
+        <li>Pick an algorithm. `Parallel BFS` lights up the graph. `PageRank` does not animate yet.</li>
+        <li>Pick how many threads you want to use.</li>
+        <li>If you use BFS, keep the source vertex as `0`.</li>
+        <li>Click `Run Demo`.</li>
+        <li>Look at the picture for BFS, the log on the right, and the benchmark card below.</li>
+      </ol>
+      <p class="guide-note">Simple rule: BFS shows movement. PageRank shows numbers and benchmark results.</p>
+    </section>
+
+    <section class="panel-grid">
+      <article class="panel-card">
+        <div class="panel-heading">
+          <h2 id="visual-title">BFS Frontier Playback</h2>
+          <p id="visual-subtitle">This view shows which vertices become active at each BFS level.</p>
+        </div>
+        <div class="visual-stage">
+          <canvas id="graph-canvas" width="960" height="560"></canvas>
+          <div id="visual-overlay" class="visual-overlay" hidden>
+            <p>No animation available for PageRank yet. Use the metrics, log, and benchmark cards.</p>
+          </div>
+        </div>
+      </article>
+      <article class="panel-card">
+        <div class="panel-heading">
+          <h2>Engine Run Log</h2>
+          <p>Raw output from the native C++ engine for the current run.</p>
+        </div>
+        <pre id="log-panel" class="log-panel">Engine output will appear here.</pre>
+      </article>
+    </section>
+
+    <section class="info-grid">
+      <article class="info-card">
+        <h2>What Improved</h2>
+        <p id="improvement-summary">Run a workload to compare the optimized engine against its baseline implementation.</p>
+        <p id="benchmark-meta" class="benchmark-meta">Benchmarks will report averaged results across repeated trials.</p>
+        <div id="benchmark-table" class="benchmark-table"></div>
+      </article>
+      <article class="info-card">
+        <h2>Metric Definitions</h2>
+        <dl class="metric-definitions">
+          <div><dt>TEPS</dt><dd>Traversed Edges Per Second. Higher means the engine is processing more edges each second.</dd></div>
+          <div><dt>Elapsed</dt><dd>Total runtime for the workload. Lower is better.</dd></div>
+          <div><dt>Sync Ratio</dt><dd>Fraction of hot-path time spent coordinating threads with atomics or locks.</dd></div>
+          <div><dt>Est. LLC Miss</dt><dd>Estimated cache-miss pressure. Lower usually means the memory layout is more cache-friendly.</dd></div>
+          <div><dt>Bandwidth</dt><dd>Approximate memory throughput used while traversing graph data.</dd></div>
+        </dl>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>Built by Vinish Kumar</p>
+      <a class="footer-link" href="https://github.com/iamnotvk/AMB" target="_blank" rel="noreferrer">
+        GitHub Code Link
+      </a>
+    </div>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
